@@ -61,12 +61,7 @@ export default function ProfessorAttendanceEventMapViewScreen({ navigation, rout
 
     return (
         <View style={styles.container}>
-            <Text>Course Name {courseName}</Text>
-            <Text>Total Attendance Events: {totalAttendanceEvents}</Text>
-            <Text>Professor UID: {uid}</Text>
-            <Text>Course Code: {courseCode}</Text>
-            <Text>Event ID: {eventID.toLocaleString()}</Text>
-            <Text>Event Start Time: {event.startTime.toDate().toLocaleString()}</Text>
+        
         
             <MapView style={styles.map}
                 initialRegion={geolocationData && {
@@ -87,7 +82,7 @@ export default function ProfessorAttendanceEventMapViewScreen({ navigation, rout
                     />
                 )}
                 {studentMarkers.map((marker, index) => (
-                    <Marker key={index} coordinate={marker} title={marker.title} pinColor={marker.color} />
+                    <Marker key={index} style={styles.studentMarker} coordinate={marker} title={marker.title} pinColor={marker.color} />
                 ))}
             </MapView>
         </View>
@@ -108,8 +103,8 @@ const styles = StyleSheet.create({
       height: 30,
     },
     marker: {
-      width: 20,
-      height: 20,
+      width: 10,
+      height: 10,
       borderRadius: 10,
       alignItems: 'center',
       justifyContent: 'center',
@@ -120,6 +115,10 @@ const styles = StyleSheet.create({
     },
     studentMarker: {
       borderColor: 'red',
+      //make it smaller
+        width: 5,
+        height: 5,
+        size: 5,
     },
     callout: {
       width: 100,

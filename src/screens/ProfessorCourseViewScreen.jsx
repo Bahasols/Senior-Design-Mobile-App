@@ -90,13 +90,13 @@ export default function ProfessorCourseViewScreen({ navigation, route }) {
   const startAttendanceEvent = async () => {
     const parsedDuration = parseInt(duration);
     if (isNaN(parsedDuration) || duration.trim() === '') {
-      alert('Your input must be a postive number between 1 and 60 seconds.');
+      alert('Your input must be a postive number between 1 and 600 seconds.');
       return;
     } else if (parsedDuration <= 0) {
       alert('Please enter a positive number');
       return;
-    } else if (parsedDuration > 60) {
-      alert('Please enter a number less than 60');
+    } else if (parsedDuration > 600) {
+      alert('Please enter a number less than 600');
       return;
     }
     await createAttendanceEvent(courseCode, setAttendanceEventInfo, parsedDuration);

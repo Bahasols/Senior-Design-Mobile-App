@@ -77,8 +77,6 @@ export default function StudentHomeScreen({ navigation, route }) {
       style={{flex: 1,justifyContent: 'center', alignItems: 'center', alignContent: 'flex-end',}}
       >
       <Button style={style.button} mode="contained" onPress={() => navigation.navigate("Join Course", { uid: uid })}>Join Course</Button>
-      <Button style={style.button} mode="contained" onPress={() => getPermission()}>TEST: Get Location Permission</Button>
-      <Button style={style.button} mode="contained" onPress={() => getLocation()}>TEST: Get Location</Button>
       <ScrollView style={{ width: '100%' }}>
         {courses.map((course, index) => (
           <Button
@@ -89,7 +87,7 @@ export default function StudentHomeScreen({ navigation, route }) {
           onPress={() => navigation.navigate("Student Course View", { courseCode: course.courseCode, uid: uid, courseName: course.courseName })}
         >
           <Text style={{ fontSize: 12, fontWeight: 'bold' }}>{course.courseName}</Text>
-          <Text style={{ fontSize: 10, fontStyle: 'italic' }}>{course.courseCode}</Text>
+          <Text style={{ fontSize: 10, fontStyle: 'italic' }}> - Section 1</Text>
         </Button>
         
         ))}
@@ -109,6 +107,7 @@ const style = StyleSheet.create({
     marginBottom: 10,
     color: 'orange',
     borderRadius: 20,
+    marginTop: 10,
   },
   courseButton: {
     width: '95%',
@@ -118,7 +117,7 @@ const style = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 20,
     justifyContent: 'center', 
-    paddingLeft: 10,
+    marginLeft: 10,
   },
   
 });

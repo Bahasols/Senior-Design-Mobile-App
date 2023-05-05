@@ -1,10 +1,6 @@
-import * as React from 'react';
-import {SafeAreaView,ScrollView,StatusBar,StyleSheet,Text,View,} from 'react-native';
-
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-//import SignInScreen.jsx from -> src folder -> screens -> SignInScreen.jsx
 import SignInScreen from './src/screens/SignInScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
 import StudentHomeScreen from './src/screens/StudentHomeScreen';

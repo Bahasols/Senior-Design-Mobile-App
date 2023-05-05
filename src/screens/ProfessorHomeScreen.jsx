@@ -65,7 +65,7 @@ export default function ProfessorHomeScreen({ navigation, route }) {
               contentStyle={{ flexWrap: 'wrap' }}
             >
               <Text style={{ fontSize: 12, fontWeight: 'bold' }}>
-                {course.courseName}
+                 {course.courseName}
               </Text>
               <Text style={{ fontSize: 10, fontStyle: 'italic' }}>
                 {course.courseCode}
@@ -89,6 +89,7 @@ const style = StyleSheet.create({
     marginBottom: 10,
     color: 'orange',
     borderRadius: 20,
+    marginTop: 10,
   },
   courseButton: {
     width: '95%',
@@ -98,7 +99,7 @@ const style = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 20,
     justifyContent: 'center', 
-    paddingLeft: 10,
+    marginLeft: 10,
   },
   
 });

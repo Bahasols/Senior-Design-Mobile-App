@@ -30,10 +30,8 @@ export default function SignInScreen( {navigation, route} ) {
 
             firestore().collection('users').doc(auth().currentUser.uid).get().then((doc) => {
                 if (doc.data().isProfessor) {
-                    //navigate to professor home screen, with current user's uid as a parameter
                     navigation.navigate("Professor Home", {uid: auth().currentUser.uid});
                 } else {
-                    //navigate to student home screen, with current user's uid as a parameter
                     navigation.navigate("Student Home", {uid: auth().currentUser.uid});
                 }
             }
