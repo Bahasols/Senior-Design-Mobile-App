@@ -1,16 +1,11 @@
 import React from 'react';
-import {SafeAreaView,ScrollView,StatusBar,StyleSheet,Text,View,Colors,TouchableOpacity,ToastAndroid} from 'react-native';
+import { StyleSheet,Text,View,TouchableOpacity,ToastAndroid } from 'react-native';
 
 import { TextInput } from 'react-native-paper';
-import { Image } from '@rneui/themed';
 import { Button } from 'react-native-paper';
 
-import firebaseConfig from './firebase-config';
-import firebase from '@react-native-firebase/app';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
-
-
 
 export default function SignInScreen( {navigation, route} ) {
 
@@ -36,21 +31,15 @@ export default function SignInScreen( {navigation, route} ) {
                 }
             }
             );
-
-
-
-
         } catch (error) {
             console.log('Error:', error.message);
             ToastAndroid.show(error.message, ToastAndroid.SHORT);
         }
     };
       
-
     return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', alignContent: 'flex-end'}}>
     
-          
           <TextInput
             style={style.textinput}
             label="Email"
@@ -92,11 +81,7 @@ export default function SignInScreen( {navigation, route} ) {
                    Sign Up</Text>
             </TouchableOpacity>
             </View>
-    
-            
-    
-    
-    
+
         </View>
       );
     }

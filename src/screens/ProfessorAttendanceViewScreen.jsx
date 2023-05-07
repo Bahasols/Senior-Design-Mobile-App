@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, FlatListProps, TouchableOpacity } from 'react-native';
-import { TextInput } from 'react-native-paper';
-import { Image } from '@rneui/themed';
-import { CheckBox } from '@rneui/base';
-import { Button } from 'react-native-paper';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 
-import firebaseConfig from './firebase-config';
 import firestore from '@react-native-firebase/firestore';
-import firebase from '@react-native-firebase/app';
 
 export default function ProfessorAttendanceViewScreen({ navigation, route }) {
   const { courseCode, uid, courseName } = route.params;
@@ -88,8 +82,6 @@ export default function ProfessorAttendanceViewScreen({ navigation, route }) {
     return (
       <View style={[styles.container, { height: 400 }]}>
  
-      
-
         <Text style={styles.title}>{courseName}</Text>
 
         <FlatList style={{height: 75}}
@@ -114,7 +106,6 @@ export default function ProfessorAttendanceViewScreen({ navigation, route }) {
     );
   }
   
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,

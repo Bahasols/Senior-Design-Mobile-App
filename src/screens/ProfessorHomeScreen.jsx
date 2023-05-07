@@ -1,21 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View,
-  Colors,
-  TouchableOpacity,
-  ToastAndroid,
-} from 'react-native';
+import { SafeAreaView, ScrollView, StatusBar,StyleSheet, Text } from 'react-native';
 import { Button } from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 
 export default function ProfessorHomeScreen({ navigation, route }) {
   const uid = route.params.uid;
-
   const [userDoc, setUserDoc] = useState(null);
 
   useEffect(() => {
@@ -65,10 +54,10 @@ export default function ProfessorHomeScreen({ navigation, route }) {
               contentStyle={{ flexWrap: 'wrap' }}
             >
               <Text style={{ fontSize: 12, fontWeight: 'bold' }}>
-                 {course.courseName}
+                 {course.courseName} - 
               </Text>
               <Text style={{ fontSize: 10, fontStyle: 'italic' }}>
-                {course.courseCode}
+                 {course.courseCode}
               </Text>
             </Button>
           ))}
@@ -101,5 +90,4 @@ const style = StyleSheet.create({
     justifyContent: 'center', 
     marginLeft: 10,
   },
-  
 });

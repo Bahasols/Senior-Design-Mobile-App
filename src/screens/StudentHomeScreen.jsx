@@ -1,53 +1,8 @@
 import React from 'react';
-import { SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View, Colors, TouchableOpacity, ToastAndroid, Pressable, PermissionsAndroid} from 'react-native';
-
-import { TextInput } from 'react-native-paper';
-import { Image } from '@rneui/themed';
-import { CheckBox } from '@rneui/base';
+import { SafeAreaView, ScrollView, StyleSheet, Text } from 'react-native';
 import { Button } from 'react-native-paper';
 
-import firebaseConfig from './firebase-config';
-import firebase from '@react-native-firebase/app';
 import firestore from '@react-native-firebase/firestore';
-import auth from '@react-native-firebase/auth';
-
-import Geolocation from 'react-native-geolocation-service';
-import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
-
-let getPermission = async () => {
-  try {
-    const granted = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-      {
-        title: 'Location Permission',
-        message: 'This App needs access to your location',
-        buttonNeutral: 'Ask Me Later',
-        buttonNegative: 'Cancel',
-        buttonPositive: 'OK',
-      },
-    );
-    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-      console.log('Location permission granted');
-    } else {
-      console.log('Location permission denied');
-    }
-  } catch (err) {
-    console.warn(err);
-  }
-};
-
-let getLocation = () => {
-  Geolocation.getCurrentPosition(
-    (position) => {
-      console.log(position);
-    },
-    (error) => {
-      // See error code charts below.
-      console.log(error.code, error.message);
-    },
-    { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
-  );
-};
 
 export default function StudentHomeScreen({ navigation, route }) {
   const uid = route.params.uid;
@@ -87,7 +42,7 @@ export default function StudentHomeScreen({ navigation, route }) {
           onPress={() => navigation.navigate("Student Course View", { courseCode: course.courseCode, uid: uid, courseName: course.courseName })}
         >
           <Text style={{ fontSize: 12, fontWeight: 'bold' }}>{course.courseName}</Text>
-          <Text style={{ fontSize: 10, fontStyle: 'italic' }}> - Section 1</Text>
+          <Text style={{ fontSize: 10, fontStyle: 'italic' }}> - {course.courseCode}</Text>
         </Button>
         
         ))}

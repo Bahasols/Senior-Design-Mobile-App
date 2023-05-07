@@ -1,13 +1,10 @@
 import React from 'react';
-import {SafeAreaView,ScrollView,StatusBar,StyleSheet,Text,View,Colors,TouchableOpacity,ToastAndroid} from 'react-native';
+import {StyleSheet,View,ToastAndroid} from 'react-native';
 
 import { TextInput } from 'react-native-paper';
-import { Image } from '@rneui/themed';
 import { CheckBox } from '@rneui/base';
 import { Button } from 'react-native-paper';
 
-import firebaseConfig from './firebase-config';
-import firebase from '@react-native-firebase/app';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 
@@ -32,27 +29,17 @@ export default function SignInScreen( {navigation, route} ) {
                 isProfessor: isProfessor,
                 coursesInvolved: [],
                 uid: auth().currentUser.uid,
-
             });
-            console.log('User account created & signed in!');
+
             ToastAndroid.show('User account created & signed in!', ToastAndroid.SHORT);
             setTimeout(() => {
                 navigation.navigate("Sign In");
             }, 2000);
-
-
-
-
-
-
         } catch (error) {
-            console.log('Error:', error.message);
             ToastAndroid.show(error.message, ToastAndroid.SHORT);
         }
     };
     
-      
-
     return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', alignContent: 'flex-end'}}>
             <TextInput
@@ -110,13 +97,7 @@ export default function SignInScreen( {navigation, route} ) {
                 style={style.button}
                 mode="contained"
                 onPress={() => {
-                    console.log('\n')
-                    console.log('name field:', name);
-                    console.log('email field:', email);
-                    console.log('password field:', password);
-                    console.log('isProfessor field:', isProfessor);
                     handleSignUp();
-
                 }}
             >Create Account</Button>
         </View>

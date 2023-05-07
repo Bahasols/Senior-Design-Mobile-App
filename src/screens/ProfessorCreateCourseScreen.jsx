@@ -1,20 +1,14 @@
 import React from 'react';
-import {SafeAreaView,ScrollView,StatusBar,StyleSheet,Text,View,Colors,TouchableOpacity,ToastAndroid} from 'react-native';
+import { StyleSheet,Text,View,ToastAndroid } from 'react-native';
 
 import { TextInput } from 'react-native-paper';
-import { Image } from '@rneui/themed';
-import { CheckBox } from '@rneui/base';
 import { Button } from 'react-native-paper';
 
-import firebaseConfig from './firebase-config';
-import firebase from '@react-native-firebase/app';
 import firestore from '@react-native-firebase/firestore';
-import auth from '@react-native-firebase/auth';
 
 export default function CreateCourseScreen( {navigation, route} ) {
 
     const uid  = route.params.uid;
-
     const [courseName, setCourseName] = React.useState('');
 
     const handleCreateCourse = async () => {
@@ -56,15 +50,12 @@ export default function CreateCourseScreen( {navigation, route} ) {
         });
 
         ToastAndroid.show("Course created successfully", ToastAndroid.SHORT);
-        navigation.navigate("Professor Home", {uid: uid});
-
-
-    
+        navigation.navigate("Professor Home", {uid: uid}); 
     }
 
 
     const generateCourseCode = () => {
-        //return a string of any letters (lowercase or capital) or numbers, of size 28.
+        //returns a string of any letters (lowercase or capital) or numbers, of size 28.
         let courseCode = '';
         let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         let charactersLength = characters.length;
@@ -94,8 +85,6 @@ return (
                 mode="contained"
                 onPress={ () => handleCreateCourse() }
             >Create Course</Button>
-            
-            
         </View>
     );
 }

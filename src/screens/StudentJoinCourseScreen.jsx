@@ -1,15 +1,10 @@
 import React from 'react';
-import {SafeAreaView,ScrollView,StatusBar,StyleSheet,Text,View,Colors,TouchableOpacity,ToastAndroid} from 'react-native';
+import {StyleSheet,Text,View,ToastAndroid} from 'react-native';
 
 import { TextInput } from 'react-native-paper';
-import { Image } from '@rneui/themed';
-import { CheckBox } from '@rneui/base';
 import { Button } from 'react-native-paper';
 
-import firebaseConfig from './firebase-config';
-import firebase from '@react-native-firebase/app';
 import firestore from '@react-native-firebase/firestore';
-import auth from '@react-native-firebase/auth';
 
 export default function JoinCourseScreen( {navigation, route} ) {
 
@@ -29,8 +24,7 @@ export default function JoinCourseScreen( {navigation, route} ) {
             // Check if user is already enrolled in course
             if (doc.data().studentsEnrolled.includes(uid)) {
               ToastAndroid.show(
-                'You are already enrolled in this course',
-                ToastAndroid.SHORT,
+                'You are already enrolled in this course',ToastAndroid.SHORT,
               );
               return;
             }
@@ -48,7 +42,7 @@ export default function JoinCourseScreen( {navigation, route} ) {
               .doc(uid)
               .get()
               .then((userDoc) => {
-                const coursesInvolved = userDoc.data().coursesInvolved || []; // Make sure coursesInvolved is an array
+                const coursesInvolved = userDoc.data().coursesInvolved || []; 
                 coursesInvolved.push({
                   courseCode: courseCode,
                   courseName: doc.data().courseName,
@@ -77,14 +71,6 @@ export default function JoinCourseScreen( {navigation, route} ) {
         });
     };
     
-
-
-
-
-
-
-
-
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', alignContent: 'flex-end'}}>
           <Text>Join Course Screen</Text>
@@ -109,15 +95,6 @@ export default function JoinCourseScreen( {navigation, route} ) {
       </View>
   );
 }
-
-
-
-
-
-
-
-
-
 
 const style = StyleSheet.create({
     textinput: {

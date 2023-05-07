@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, FlatListProps, TouchableOpacity, Platform} from 'react-native';
-import { TextInput } from 'react-native-paper';
-import { Image } from '@rneui/themed';
-import { CheckBox } from '@rneui/base';
-import { Button } from 'react-native-paper';
+import { View, StyleSheet } from 'react-native';
 
-import firebaseConfig from './firebase-config';
 import firestore from '@react-native-firebase/firestore';
-import firebase from '@react-native-firebase/app';
 
 import Geolocation from 'react-native-geolocation-service';
 import MapView, { Marker } from 'react-native-maps';
@@ -29,7 +23,6 @@ export default function ProfessorAttendanceEventMapViewScreen({ navigation, rout
                 console.log(position);
             },
             (error) => {
-                // See error code charts below.
                 console.log(error.code, error.message);
             },
             { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
@@ -99,8 +92,9 @@ const styles = StyleSheet.create({
       height: '100%',
     },
     markerIcon: {
-      width: 30,
-      height: 30,
+      width: 3,
+      height: 3,
+      size: 3,
     },
     marker: {
       width: 10,
@@ -115,15 +109,8 @@ const styles = StyleSheet.create({
     },
     studentMarker: {
       borderColor: 'red',
-      //make it smaller
-        width: 5,
-        height: 5,
-        size: 5,
-    },
-    callout: {
-      width: 100,
-    },
-    calloutText: {
-      textAlign: 'center',
+        width: 3,
+        height: 3,
+        size: 3,
     },
   });

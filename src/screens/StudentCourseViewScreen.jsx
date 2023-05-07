@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import {SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View, Colors,TouchableOpacity, ToastAndroid, PermissionsAndroid} from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, ToastAndroid, PermissionsAndroid } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 
@@ -13,8 +13,6 @@ export default function StudentCourseViewScreen({ navigation, route }) {
     const courseName = route.params.courseName;
     
     const [code, setCode] = useState('');
-    const [geolocationData, setGeolocationData] = useState({});
-
 
     let isOnEmulator = async () => {
         let isEmulator = await DeviceInfo.isEmulator();
@@ -24,8 +22,6 @@ export default function StudentCourseViewScreen({ navigation, route }) {
           ToastAndroid.show('Running on Device', ToastAndroid.SHORT);
         }
       }
-
-        
 
     let getGeolocationPermission = async () => {
         try {
@@ -49,48 +45,38 @@ export default function StudentCourseViewScreen({ navigation, route }) {
         }
       };
 
-      let getGeolocation = () => {
+    let getGeolocation = () => {
+      return new Promise((resolve, reject) => {
         Geolocation.getCurrentPosition(
           (position) => {
-            setGeolocationData(position);
             console.log(position);
+            resolve(position);
           },
           (error) => {
-            // See error code charts below.
-            console.log(error.code, error.message);
+             console.log(error.code, error.message);
+            reject(error);
           },
           { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
         );
-      };
+      });
+    };
       
-
-
-
+      
     let submitAttendance = async () => {
 
-        getGeolocation();
+      let geolocation = await getGeolocation();
 
-        let hasPermission = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
-        if(hasPermission){
-            console.log('Has Geolocation Permission Enabled');
-        } else {
-            console.log('Has Geolocation Permission Disabled');
-            ToastAndroid.show('Please enable geolocation permission', ToastAndroid.SHORT);
-            return;
-        }
-
-        getGeolocation();
-        //wait for 2 seconds (getGeolocation should be async, but that was causing weird issues)
-        setTimeout(() => {
-            console.log("Waiting...");
-        }, 2000);
-
-
-        if(code == ''){
-            ToastAndroid.show('Please enter a code', ToastAndroid.SHORT);
-            return;
-        }
-
+      let hasPermission = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
+      if (!hasPermission) {
+          console.log('Has Geolocation Permission Disabled');
+          ToastAndroid.show('Please enable geolocation permission', ToastAndroid.SHORT);
+          return;
+      }
+      
+      if(code == ''){
+          ToastAndroid.show('Please enter a code', ToastAndroid.SHORT);
+          return;
+      }
         
         let attendanceRef = firestore().collection('courses').doc(courseCode).collection('attendance').orderBy('startTime', 'desc').limit(1);
         let attendanceDoc = await attendanceRef.get();
@@ -109,7 +95,6 @@ export default function StudentCourseViewScreen({ navigation, route }) {
             return;
         }
 
-        
         if(code == attendanceDoc.docs[0].data().code){ 
             console.log('Code is correct');
 
@@ -119,39 +104,25 @@ export default function StudentCourseViewScreen({ navigation, route }) {
             return;
         }
 
-        
         let attendanceStatus = attendanceDoc.docs[0].data().attendanceStatus;
-        
 
-        
         if(attendanceStatus[uid] == true){
             ToastAndroid.show('Attendance already submitted', ToastAndroid.SHORT);
             return;
         }
 
-
         attendanceStatus[uid] = true;
 
-        
         let attendanceDocRef = attendanceDoc.docs[0].ref;
         await attendanceDocRef.update({ attendanceStatus: attendanceStatus });
 
-        
-        
-
         let geolocationField = attendanceDoc.docs[0].data().geolocation;
         
-        geolocationField[uid] = geolocationData;
+        geolocationField[uid] = geolocation;
         await attendanceDocRef.update({ geolocation: geolocationField });
-
 
       }
       
-
-
-
-
-
     return (
         <View>
             <Text>Student Course View Screen</Text>
@@ -195,9 +166,6 @@ export default function StudentCourseViewScreen({ navigation, route }) {
                 onPress={() => isOnEmulator()}
                 >TEST: On Emulator?
             </Button>
-
-
-
         </View>
     )
 }

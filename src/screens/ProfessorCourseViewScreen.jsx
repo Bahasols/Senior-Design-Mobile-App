@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ToastAndroid } from 'react-native';
 import { TextInput } from 'react-native-paper';
-import { Image } from '@rneui/themed';
-import { CheckBox } from '@rneui/base';
 import { Button } from 'react-native-paper';
 
-import firebaseConfig from './firebase-config';
 import firestore from '@react-native-firebase/firestore';
 import firebase from '@react-native-firebase/app';
 
@@ -16,7 +13,6 @@ const createAttendanceEvent = async (courseCode, setAttendanceEventInfo, duratio
     attendanceStart.seconds + duration,
     attendanceStart.nanoseconds
   );
-  const docName = attendanceStart.toDate().toLocaleString();
 
   const code = generateCode();
 
@@ -33,9 +29,8 @@ const createAttendanceEvent = async (courseCode, setAttendanceEventInfo, duratio
       .doc(attendanceStart.toString());
 
     const attendanceStatusObj = {};
-    const geolocationObj = {}; // create an empty object for geolocation
+    const geolocationObj = {}; 
 
-    // create an empty object for each UID in the geolocationObj
     enrolledStudents.forEach((studentUID) => {
       geolocationObj[studentUID] = {};
       attendanceStatusObj[studentUID] = false;
@@ -46,7 +41,7 @@ const createAttendanceEvent = async (courseCode, setAttendanceEventInfo, duratio
       endTime: attendanceEnd,
       code: code,
       attendanceStatus: attendanceStatusObj,
-      geolocation: geolocationObj // set geolocationObj in the attendance document
+      geolocation: geolocationObj 
     });
     console.log('Attendance Event Created');
   } catch (error) {
@@ -75,7 +70,6 @@ const createAttendanceEvent = async (courseCode, setAttendanceEventInfo, duratio
 
 
 const generateCode = () => {
-  //generate a random 6 digit code of lowercase numbers and letters
   const code = Math.random().toString(36).substring(2, 8);
   return code;
 };
@@ -90,26 +84,21 @@ export default function ProfessorCourseViewScreen({ navigation, route }) {
   const startAttendanceEvent = async () => {
     const parsedDuration = parseInt(duration);
     if (isNaN(parsedDuration) || duration.trim() === '') {
-      alert('Your input must be a postive number between 1 and 600 seconds.');
+      ToastAndroid.show('Please enter a number.', ToastAndroid.SHORT);
       return;
     } else if (parsedDuration <= 0) {
-      alert('Please enter a positive number');
+      ToastAndroid.show('Please enter a number greater than 0', ToastAndroid.SHORT);
       return;
-    } else if (parsedDuration > 600) {
-      alert('Please enter a number less than 600');
+    } else if (parsedDuration > 120) {
+      ToastAndroid.show('Please enter a number less than 120', ToastAndroid.SHORT);
       return;
     }
     await createAttendanceEvent(courseCode, setAttendanceEventInfo, parsedDuration);
     setShowCode(true);
   };
   
-
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Professor Course View Screen</Text>
-      <Text>Course Code: {courseCode}</Text>
-      <Text>Professor UID: {uid}</Text>
-      <Text>Course Name: {courseName}</Text>
 
       <Button
         style={styles.button}
@@ -130,7 +119,6 @@ export default function ProfessorCourseViewScreen({ navigation, route }) {
             activeOutlineColor='#0000FF'
           />
 
-
       {showCode && (
         <View style={styles.qrContainer}>
           <Text style={styles.codeText}>
@@ -143,7 +131,6 @@ export default function ProfessorCourseViewScreen({ navigation, route }) {
           </View>
       )}
 
-     
       <Button
         style={styles.bottomButton}
         mode="contained"
@@ -190,7 +177,5 @@ const styles = StyleSheet.create({
     width: '95%',
     backgroundColor: '#0000FF',
     marginTop: 300,
-
   },
-
 });
